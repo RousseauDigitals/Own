@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rousseau Digitals — Agence Web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/ico" href="Favicon.ico"/>
+<meta name="google-site-verification" content="lf-92ejuG_QDYIKDM5uQKFOebl-9sthqkulaUEd1rI4" />
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;color:#1a1a1a;background:#fff;overflow-x:hidden;}
+.rd-nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:rgba(255,255,255,0.96);border-bottom:0.5px solid rgba(0,0,0,0.08);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);}
+.rd-logo{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:600;letter-spacing:.02em;color:#1a1a1a;}
+.rd-logo span{color:#c8a96e;}
+.rd-nav ul{display:flex;gap:2rem;list-style:none;}
+.rd-nav ul a{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .2s;}
+.rd-nav ul a:hover{color:#c8a96e;}
+.rd-nav-cta{background:#1a1a1a;color:#fff;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.65rem 1.4rem;border:none;cursor:pointer;border-radius:2px;transition:background .2s;}
+.rd-nav-cta:hover{background:#c8a96e;}
+
+.rd-hero{min-height:88vh;display:flex;align-items:center;justify-content:center;position:relative;background:#0e0e0e;overflow:hidden;}
+.rd-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(200,169,110,.12) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(200,169,110,.06) 0%,transparent 50%);}
+.rd-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;}
+.rd-hero-content{position:relative;z-index:2;text-align:center;max-width:820px;padding:2rem;}
+.rd-eyebrow-gold{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#c8a96e;margin-bottom:2rem;}
+.rd-eyebrow-gold::before,.rd-eyebrow-gold::after{content:'';display:block;width:30px;height:.5px;background:#c8a96e;}
+.rd-hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:500;line-height:1.1;color:#f5f0e8;margin-bottom:1.5rem;}
+.rd-hero-title em{font-style:italic;color:#c8a96e;}
+.rd-hero-sub{font-size:1rem;font-weight:300;line-height:1.8;color:rgba(245,240,232,.6);max-width:520px;margin:0 auto 2.5rem;}
+.rd-hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.rd-btn-gold{background:#c8a96e;color:#1a1a1a;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.85rem 2rem;border:none;cursor:pointer;border-radius:2px;transition:opacity .2s;}
+.rd-btn-gold:hover{opacity:.85;}
+.rd-btn-outline{background:transparent;color:#f5f0e8;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.85rem 2rem;border:.5px solid rgba(245,240,232,.3);cursor:pointer;border-radius:2px;transition:border-color .2s,color .2s;}
+.rd-btn-outline:hover{border-color:#c8a96e;color:#c8a96e;}
+.rd-hero-stats{position:absolute;bottom:3rem;left:0;right:0;display:flex;justify-content:center;gap:4rem;}
+.rd-stat-n{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:500;color:#c8a96e;text-align:center;}
+.rd-stat-l{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.45);margin-top:3px;text-align:center;}
+
+.rd-marquee{background:#c8a96e;padding:.7rem 0;overflow:hidden;white-space:nowrap;}
+.rd-marquee-inner{display:inline-flex;animation:marquee 20s linear infinite;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.rd-marquee span{font-size:.65rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#1a1a1a;padding:0 2.5rem;}
+.rd-marquee span::after{content:'◆';margin-left:2.5rem;font-size:.4rem;vertical-align:middle;}
+
+.rd-sec{padding:6rem 3rem;max-width:1200px;margin:0 auto;}
+.rd-eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#c8a96e;margin-bottom:1rem;}
+.rd-h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:500;line-height:1.2;color:#1a1a1a;margin-bottom:1.2rem;}
+.rd-h2 em{font-style:italic;}
+.rd-subtext{font-size:.95rem;font-weight:300;line-height:1.8;color:#666;max-width:500px;}
+
+.rd-svc-bg{background:#faf9f7;}
+.rd-svc-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:1.5rem;}
+.rd-svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(0,0,0,.08);border:.5px solid rgba(0,0,0,.08);}
+.rd-svc-card{background:#fff;padding:2.5rem 2rem;position:relative;overflow:hidden;transition:transform .2s;cursor:default;}
+.rd-svc-card:hover{transform:translateY(-2px);z-index:2;}
+.rd-svc-card:hover .rd-svc-arrow{opacity:1;transform:translate(0,0);}
+.rd-svc-num{font-size:.65rem;font-weight:500;letter-spacing:.12em;color:#c8a96e;margin-bottom:1.5rem;}
+.rd-svc-icon{width:40px;height:40px;margin-bottom:1.2rem;}
+.rd-svc-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:#1a1a1a;margin-bottom:.7rem;}
+.rd-svc-desc{font-size:.85rem;font-weight:300;line-height:1.7;color:#777;}
+.rd-svc-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem;}
+.rd-svc-tag{font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:#999;padding:3px 8px;border:.5px solid rgba(0,0,0,.1);border-radius:2px;}
+.rd-svc-arrow{position:absolute;bottom:1.5rem;right:1.5rem;font-size:1.2rem;color:#c8a96e;opacity:0;transform:translate(-4px,4px);transition:all .2s;}
+
+.rd-process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3.5rem;}
+.rd-process-step{position:relative;}
+.rd-process-step::after{content:'';position:absolute;top:20px;left:calc(100% + .5rem);width:calc(2rem - 1rem);height:.5px;background:linear-gradient(90deg,#c8a96e,rgba(200,169,110,.1));}
+.rd-process-step:last-child::after{display:none;}
+.rd-pnum{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:400;color:rgba(200,169,110,.25);line-height:1;margin-bottom:1rem;}
+.rd-ptitle{font-size:.9rem;font-weight:500;color:#1a1a1a;margin-bottom:.5rem;}
+.rd-pdesc{font-size:.8rem;font-weight:300;line-height:1.7;color:#888;}
+
+/* PAYMENT */
+.rd-pay-bg{background:#faf9f7;}
+.rd-pay-inner{padding:6rem 3rem;max-width:1200px;margin:0 auto;}
+.rd-pay-header{text-align:center;margin-bottom:3.5rem;}
+.rd-pay-badge{display:inline-block;background:#1a1a1a;color:#c8a96e;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2px;margin-bottom:1rem;}
+.rd-pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.rd-pay-card{background:#fff;border:.5px solid rgba(0,0,0,.1);border-radius:4px;padding:2rem;}
+.rd-pay-card-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:500;color:#1a1a1a;margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:.5px solid rgba(0,0,0,.07);}
+.rd-pay-field{margin-bottom:1rem;}
+.rd-pay-label{font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#999;display:block;margin-bottom:.35rem;}
+.rd-pay-input{width:100%;background:#faf9f7;border:.5px solid rgba(0,0,0,.12);border-radius:2px;padding:.6rem .85rem;font-size:.85rem;font-family:'Inter',sans-serif;color:#1a1a1a;outline:none;transition:border-color .2s;}
+.rd-pay-input:focus{border-color:#c8a96e;}
+.rd-pay-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.rd-pay-amount-display{background:#1a1a1a;border-radius:4px;padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.rd-pay-amount-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.4);}
+.rd-pay-amount-val{font-family:'Playfair Display',serif;font-size:1.6rem;color:#c8a96e;font-weight:500;}
+.rd-pay-btn{width:100%;background:#c8a96e;color:#1a1a1a;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.85rem;border:none;cursor:pointer;border-radius:2px;transition:opacity .2s;margin-top:.5rem;}
+.rd-pay-btn:hover{opacity:.85;}
+.rd-pay-btn:disabled{opacity:.5;cursor:not-allowed;}
+.rd-pay-secure{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.9rem;}
+.rd-pay-secure-text{font-size:.7rem;color:#999;letter-spacing:.05em;}
+.rd-pay-error{font-size:.8rem;color:#c0392b;margin-top:.6rem;min-height:1.2em;text-align:center;}
+/* Stripe Elements container */
+#stripe-card-element{background:#faf9f7;border:.5px solid rgba(0,0,0,.12);border-radius:2px;padding:.75rem .85rem;transition:border-color .2s;}
+#stripe-card-element.StripeElement--focus{border-color:#c8a96e;}
+#stripe-card-element.StripeElement--invalid{border-color:#c0392b;}
+
+.rd-pay-info{display:flex;flex-direction:column;gap:1.2rem;}
+.rd-pay-info-card{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:4px;padding:1.3rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;}
+.rd-pay-info-icon{width:32px;height:32px;background:rgba(200,169,110,.08);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rd-pay-info-title{font-size:.82rem;font-weight:500;color:#1a1a1a;margin-bottom:.25rem;}
+.rd-pay-info-desc{font-size:.78rem;font-weight:300;color:#888;line-height:1.6;}
+.rd-pay-steps{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:4px;padding:1.5rem;margin-bottom:1.2rem;}
+.rd-pay-step{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.1rem;}
+.rd-pay-step:last-child{margin-bottom:0;}
+.rd-pay-step-num{width:22px;height:22px;background:#c8a96e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:500;color:#1a1a1a;flex-shrink:0;margin-top:1px;}
+.rd-pay-step-title{font-size:.82rem;font-weight:500;color:#1a1a1a;margin-bottom:.2rem;}
+.rd-pay-step-desc{font-size:.75rem;font-weight:300;color:#888;line-height:1.5;}
+.rd-pay-success{display:none;text-align:center;padding:3rem 1.5rem;}
+
+/* CONTACT */
+.rd-contact-bg{background:#0e0e0e;}
+.rd-contact-inner{padding:6rem 3rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.rd-contact-left .rd-h2{color:#f5f0e8;}
+.rd-contact-left .rd-eyebrow{color:#c8a96e;}
+.rd-contact-left p{font-size:.9rem;font-weight:300;line-height:1.8;color:rgba(245,240,232,.55);margin-bottom:2rem;}
+.rd-contact-info{display:flex;flex-direction:column;gap:1.2rem;}
+.rd-contact-item{display:flex;align-items:flex-start;gap:1rem;}
+.rd-contact-icon{width:36px;height:36px;border:.5px solid rgba(200,169,110,.3);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rd-contact-label{font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(200,169,110,.7);margin-bottom:.2rem;}
+.rd-contact-value{font-size:.88rem;color:rgba(245,240,232,.75);font-weight:300;}
+.rd-form-wrap{background:#161616;border:.5px solid rgba(200,169,110,.15);border-radius:4px;padding:2rem;}
+.rd-form-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:#f5f0e8;margin-bottom:1.5rem;}
+.rd-field{margin-bottom:1.1rem;}
+.rd-label{font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.4);display:block;margin-bottom:.4rem;}
+.rd-input{width:100%;background:#1e1e1e;border:.5px solid rgba(255,255,255,.1);border-radius:2px;padding:.65rem .9rem;font-size:.85rem;font-family:'Inter',sans-serif;color:#f5f0e8;outline:none;transition:border-color .2s;}
+.rd-input:focus{border-color:#c8a96e;}
+textarea.rd-input{resize:vertical;min-height:100px;}
+.rd-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.rd-submit{width:100%;background:#c8a96e;color:#1a1a1a;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.85rem;border:none;cursor:pointer;border-radius:2px;margin-top:.5rem;transition:opacity .2s;}
+.rd-submit:hover{opacity:.85;}
+.rd-submit:disabled{opacity:.5;cursor:not-allowed;}
+.rd-form-success{display:none;text-align:center;padding:2rem 1rem;}
+.rd-form-error{font-size:.8rem;color:#e07a7a;margin-top:.6rem;min-height:1.2em;text-align:center;}
+
+.rd-cta-band{background:#c8a96e;padding:5rem 3rem;text-align:center;}
+.rd-cta-band .rd-h2{color:#1a1a1a;margin-bottom:.8rem;}
+.rd-cta-band p{font-size:.95rem;color:rgba(26,26,26,.7);margin-bottom:2rem;font-weight:300;}
+.rd-btn-dark{background:#1a1a1a;color:#f5f0e8;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.85rem 2rem;border:none;cursor:pointer;border-radius:2px;transition:opacity .2s;}
+.rd-btn-dark:hover{opacity:.8;}
+
+.rd-footer{background:#0a0a0a;padding:3.5rem 3rem 2rem;}
+.rd-footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem;padding-bottom:2.5rem;border-bottom:.5px solid rgba(255,255,255,.07);margin-bottom:2rem;}
+.rd-footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:#f5f0e8;}
+.rd-footer-logo span{color:#c8a96e;}
+.rd-footer-tagline{font-size:.75rem;color:rgba(245,240,232,.35);margin-top:.4rem;letter-spacing:.05em;}
+.rd-fcol h4{font-size:.65rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:1rem;}
+.rd-fcol a{display:block;font-size:.82rem;color:rgba(245,240,232,.6);text-decoration:none;margin-bottom:.5rem;transition:color .2s;}
+.rd-fcol a:hover{color:#c8a96e;}
+.rd-footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;color:rgba(245,240,232,.25);flex-wrap:wrap;gap:1rem;}
+
+@media(max-width:768px){
+  .rd-nav{padding:1rem 1.5rem;}
+  .rd-nav ul{display:none;}
+  .rd-sec{padding:4rem 1.5rem;}
+  .rd-svc-grid{grid-template-columns:1fr;}
+  .rd-process-grid{grid-template-columns:1fr 1fr;}
+  .rd-pay-grid{grid-template-columns:1fr;}
+  .rd-contact-inner{grid-template-columns:1fr;gap:3rem;padding:4rem 1.5rem;}
+  .rd-hero-stats{gap:2rem;}
+  .rd-cta-band{padding:4rem 1.5rem;}
+  .rd-footer{padding:3rem 1.5rem 2rem;}
+}
+</style>
+</head>
+<body>
+
+<nav class="rd-nav">
+  <div class="rd-logo">Rousseau<span>.</span>Digitals</div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#methode">Méthode</a></li>
+    <li><a href="#paiement">Paiement</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="rd-nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Devis gratuit</button>
+</nav>
+
+<section class="rd-hero">
+  <div class="rd-hero-bg"></div>
+  <div class="rd-hero-grid"></div>
+  <div class="rd-hero-content">
+    <div class="rd-eyebrow-gold">Agence Web Digitale</div>
+    <h1 class="rd-hero-title">Votre présence digitale,<br><em>repensée</em> avec élégance.</h1>
+    <p class="rd-hero-sub">Sites web sur mesure, référencement SEO, et accompagnement complet. Nous construisons des expériences qui convertissent.</p>
+    <div class="rd-hero-actions">
+      <button class="rd-btn-gold" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Démarrer votre projet</button>
+      <button class="rd-btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Voir nos services</button>
+    </div>
+  </div>
+  <div class="rd-hero-stats">
+    <div><div class="rd-stat-n">5★</div><div class="rd-stat-l">Note Google</div></div>
+    <div><div class="rd-stat-n">100%</div><div class="rd-stat-l">Clients satisfaits</div></div>
+    <div><div class="rd-stat-n">Rapide</div><div class="rd-stat-l">Délais tenus</div></div>
+  </div>
+</section>
+
+<div class="rd-marquee">
+  <div class="rd-marquee-inner">
+    <span>Création de sites web</span><span>Refonte e-commerce</span><span>Référencement SEO</span><span>Maintenance</span><span>Sur mesure</span><span>Réactif</span>
+    <span>Création de sites web</span><span>Refonte e-commerce</span><span>Référencement SEO</span><span>Maintenance</span><span>Sur mesure</span><span>Réactif</span>
+  </div>
+</div>
+
+<div id="services" class="rd-svc-bg">
+  <div class="rd-sec">
+    <div class="rd-svc-header">
+      <div>
+        <div class="rd-eyebrow">Ce que nous faisons</div>
+        <h2 class="rd-h2">Des services digitaux<br><em>pensés pour vous</em></h2>
+      </div>
+      <p class="rd-subtext">Chaque projet est unique. Nous adaptons notre approche pour refléter parfaitement votre image et atteindre vos objectifs.</p>
+    </div>
+    <div class="rd-svc-grid">
+      <div class="rd-svc-card">
+        <div class="rd-svc-num">01</div>
+        <svg class="rd-svc-icon" viewBox="0 0 40 40" fill="none" stroke="#1a1a1a" stroke-width="1.2"><rect x="4" y="8" width="32" height="22" rx="2"/><path d="M14 30v4M26 30v4M10 34h20"/><path d="M10 16h20M10 21h12" stroke-linecap="round"/></svg>
+        <div class="rd-svc-title">Création de site web</div>
+        <div class="rd-svc-desc">Sites vitrines, institutionnels ou portfolio, réalisés en quelques semaines avec un résultat qui reflète l'âme de votre entreprise.</div>
+        <div class="rd-svc-tags"><span class="rd-svc-tag">WordPress</span><span class="rd-svc-tag">Sur mesure</span><span class="rd-svc-tag">Responsive</span></div>
+        <div class="rd-svc-arrow">→</div>
+      </div>
+      <div class="rd-svc-card">
+        <div class="rd-svc-num">02</div>
+        <svg class="rd-svc-icon" viewBox="0 0 40 40" fill="none" stroke="#1a1a1a" stroke-width="1.2"><rect x="4" y="6" width="32" height="28" rx="2"/><path d="M8 32l6-8 6 4 6-10 6 6"/></svg>
+        <div class="rd-svc-title">E-Commerce & Refonte</div>
+        <div class="rd-svc-desc">Transformez votre boutique en ligne. Refonte complète, optimisation de la conversion et expérience utilisateur irréprochable.</div>
+        <div class="rd-svc-tags"><span class="rd-svc-tag">WooCommerce</span><span class="rd-svc-tag">UX</span><span class="rd-svc-tag">Conversion</span></div>
+        <div class="rd-svc-arrow">→</div>
+      </div>
+      <div class="rd-svc-card">
+        <div class="rd-svc-num">03</div>
+        <svg class="rd-svc-icon" viewBox="0 0 40 40" fill="none" stroke="#1a1a1a" stroke-width="1.2"><circle cx="20" cy="16" r="6"/><path d="M8 34c0-6.627 5.373-12 12-12s12 5.373 12 12"/><path d="M30 8l2 2-2 2M10 8l-2 2 2 2" stroke-linecap="round"/></svg>
+        <div class="rd-svc-title">Référencement SEO</div>
+        <div class="rd-svc-desc">Soyez trouvé par vos clients. Optimisation technique, contenu et stratégie locale pour dominer les résultats de recherche.</div>
+        <div class="rd-svc-tags"><span class="rd-svc-tag">SEO On-page</span><span class="rd-svc-tag">Local</span><span class="rd-svc-tag">Technique</span></div>
+        <div class="rd-svc-arrow">→</div>
+      </div>
+      <div class="rd-svc-card">
+        <div class="rd-svc-num">04</div>
+        <svg class="rd-svc-icon" viewBox="0 0 40 40" fill="none" stroke="#1a1a1a" stroke-width="1.2"><path d="M20 6v4M20 30v4M6 20h4M30 20h4"/><circle cx="20" cy="20" r="8"/><path d="M14 14l3 3M23 23l3 3M14 26l3-3M23 17l3-3" stroke-linecap="round"/></svg>
+        <div class="rd-svc-title">Maintenance & Support</div>
+        <div class="rd-svc-desc">Votre site en permanence sécurisé, à jour et performant. Interventions réactives et accompagnement personnalisé.</div>
+        <div class="rd-svc-tags"><span class="rd-svc-tag">Sécurité</span><span class="rd-svc-tag">Mises à jour</span><span class="rd-svc-tag">Suivi</span></div>
+        <div class="rd-svc-arrow">→</div>
+      </div>
+      <div class="rd-svc-card">
+        <div class="rd-svc-num">05</div>
+        <svg class="rd-svc-icon" viewBox="0 0 40 40" fill="none" stroke="#1a1a1a" stroke-width="1.2"><rect x="6" y="8" width="28" height="18" rx="2"/><path d="M10 30h20M15 34h10" stroke-linecap="round"/><path d="M14 17l3 3 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="rd-svc-title">Audit & Conseil</div>
+        <div class="rd-svc-desc">Analyse de votre présence digitale existante et recommandations stratégiques pour améliorer vos performances.</div>
+        <div class="rd-svc-tags"><span class="rd-svc-tag">Audit</span><span class="rd-svc-tag">Stratégie</span><span class="rd-svc-tag">Performance</span></div>
+        <div class="rd-svc-arrow">→</div>
+      </div>
+      <div class="rd-svc-card" style="background:#1a1a1a;">
+        <div class="rd-svc-num" style="color:#c8a96e;">06</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:#f5f0e8;margin:1rem 0 .8rem;">Un projet en tête ?</div>
+        <div class="rd-svc-desc" style="color:rgba(245,240,232,.55);margin-bottom:1.5rem;">Discutons de vos objectifs. Un devis gratuit et sans engagement sous 24h.</div>
+        <button class="rd-btn-gold" style="font-size:.7rem;padding:.7rem 1.4rem;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Nous contacter →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="methode" class="rd-sec">
+  <div style="text-align:center;margin-bottom:.5rem;">
+    <div class="rd-eyebrow">Notre méthode</div>
+    <h2 class="rd-h2" style="max-width:500px;margin:0 auto .8rem;">Du brief au <em>lancement</em>,<br>une méthode éprouvée</h2>
+  </div>
+  <div class="rd-process-grid">
+    <div class="rd-process-step"><div class="rd-pnum">01</div><div class="rd-ptitle">Écoute & Brief</div><div class="rd-pdesc">Nous prenons le temps de comprendre vos besoins, votre secteur et vos objectifs avant de commencer.</div></div>
+    <div class="rd-process-step"><div class="rd-pnum">02</div><div class="rd-ptitle">Conception</div><div class="rd-pdesc">Maquettes, wireframes et proposition créative validée avec vous à chaque étape.</div></div>
+    <div class="rd-process-step"><div class="rd-pnum">03</div><div class="rd-ptitle">Développement</div><div class="rd-pdesc">Réalisation rapide et rigoureuse. Vous suivez l'avancement en temps réel.</div></div>
+    <div class="rd-process-step"><div class="rd-pnum">04</div><div class="rd-ptitle">Livraison & Suivi</div><div class="rd-pdesc">Mise en ligne et accompagnement post-lancement exemplaire.</div></div>
+  </div>
+</div>
+
+<!-- ===================== PAIEMENT STRIPE ===================== -->
+<div id="paiement" class="rd-pay-bg">
+  <div class="rd-pay-inner">
+    <div class="rd-pay-header">
+      <div class="rd-pay-badge">Espace client sécurisé</div>
+      <h2 class="rd-h2">Réglez votre projet<br><em>en toute simplicité</em></h2>
+      <p style="font-size:.9rem;color:#888;font-weight:300;max-width:480px;margin:.8rem auto 0;line-height:1.7;">
+        Paiement sécurisé via Stripe.
+      </p>
+    </div>
+
+    <div style="text-align:center;margin-top:40px;">
+      <button class="rd-pay-btn"
+        onclick="window.location.href='https://buy.stripe.com/3cI5kwe2k5Nl9Ve2XSd3i01'">
+        Procéder au paiement →
+      </button>
+    </div>
+
+    <div class="rd-pay-secure" style="margin-top:20px;text-align:center;">
+      <span class="rd-pay-secure-text">
+        Paiement sécurisé Stripe · SSL 256-bit
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONTACT FORMSPREE ===================== -->
+<div id="contact" class="rd-contact-bg">
+  <div class="rd-contact-inner">
+    <div class="rd-contact-left">
+      <div class="rd-eyebrow">Parlons de votre projet</div>
+      <h2 class="rd-h2">Prenons <em>contact</em></h2>
+      <p>Que ce soit pour un devis, une question ou simplement pour échanger sur vos idées — nous sommes là. Réponse garantie sous 24h.</p>
+      <div class="rd-contact-info">
+        <div class="rd-contact-item">
+          <div class="rd-contact-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3h12v10H2zM2 3l6 5 6-5" stroke="#c8a96e" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div><div class="rd-contact-label">Email</div><div class="rd-contact-value">RousseauDigitals@gmail.com</div></div>
+        </div>
+        <div class="rd-contact-item">
+          <div class="rd-contact-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h3l1.5 3.5-2 1.2a9 9 0 004.8 4.8l1.2-2L15 11v3a1 1 0 01-1 1A13 13 0 012 3a1 1 0 011-1z" stroke="#c8a96e" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div><div class="rd-contact-label">Téléphone</div><div class="rd-contact-value">06 83 47 92 29</div></div>
+        </div>
+        <div class="rd-contact-item">
+          <div class="rd-contact-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C5.24 1 3 3.24 3 6c0 3.75 5 9 5 9s5-5.25 5-9c0-2.76-2.24-5-5-5z" stroke="#c8a96e" stroke-width=".9"/><circle cx="8" cy="6" r="1.5" stroke="#c8a96e" stroke-width=".9"/></svg>
+          </div>
+          <div><div class="rd-contact-label">Adresse</div><div class="rd-contact-value">17 Résidence Anthelme</div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="rd-form-wrap" id="contact-form-wrap">
+        <div class="rd-form-title">Envoyez-nous un message</div>
+        <!-- ACTION Formspree : remplacer YOUR_FORM_ID par votre ID Formspree -->
+        <form id="contact-form" action="https://formspree.io/f/mkoknkgr" method="POST">
+          <div class="rd-form-row">
+            <div class="rd-field"><label class="rd-label">Prénom</label><input class="rd-input" type="text" name="prenom" id="cf-prenom" placeholder="Jean" required></div>
+            <div class="rd-field"><label class="rd-label">Nom</label><input class="rd-input" type="text" name="nom" id="cf-nom" placeholder="Dupont"></div>
+          </div>
+          <div class="rd-field"><label class="rd-label">Email</label><input class="rd-input" type="email" name="email" id="cf-email" placeholder="jean@exemple.fr" required></div>
+          <div class="rd-field"><label class="rd-label">Téléphone (optionnel)</label><input class="rd-input" type="tel" name="telephone" placeholder="06 xx xx xx xx"></div>
+          <div class="rd-field"><label class="rd-label">Votre projet</label><input class="rd-input" type="text" name="projet" placeholder="Création site vitrine, refonte..."></div>
+          <div class="rd-field"><label class="rd-label">Message</label><textarea class="rd-input" name="message" id="cf-msg" placeholder="Décrivez votre projet, vos objectifs, vos questions..." required></textarea></div>
+          <!-- Honeypot anti-spam Formspree -->
+          <input type="text" name="_gotcha" style="display:none">
+          <div class="rd-form-error" id="cf-error"></div>
+          <button type="submit" class="rd-submit" id="cf-submit">Envoyer le message →</button>
+        </form>
+      </div>
+      <div class="rd-form-success" id="contact-success">
+        <div style="width:44px;height:44px;background:rgba(200,169,110,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11l5 5 9-9" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:#f5f0e8;margin-bottom:.6rem;">Message envoyé !</div>
+        <p style="font-size:.85rem;color:rgba(245,240,232,.5);font-weight:300;line-height:1.7;">Merci pour votre message.<br><strong style="color:#c8a96e;font-weight:500;">Nous vous répondrons sous 24h.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rd-cta-band">
+  <h2 class="rd-h2">Prêt à élever<br><em>votre présence digitale ?</em></h2>
+  <p>Devis gratuit · Réponse sous 24h · Tarifs transparents</p>
+  <button class="rd-btn-dark" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Démarrer maintenant →</button>
+</div>
+
+<footer class="rd-footer">
+  <div class="rd-footer-top">
+    <div>
+      <div class="rd-footer-logo">Rousseau<span>.</span>Digitals</div>
+      <div class="rd-footer-tagline">Votre vision, notre expertise.</div>
+    </div>
+    <div class="rd-fcol">
+      <h4>Services</h4>
+      <a href="#services">Création de site web</a>
+      <a href="#services">Refonte e-commerce</a>
+      <a href="#services">Référencement SEO</a>
+      <a href="#services">Maintenance</a>
+    </div>
+    <div class="rd-fcol">
+      <h4>Contact</h4>
+      <a href="mailto:RousseauDigitals@gmail.com">RousseauDigitals@gmail.com</a>
+      <a href="tel:0683479229">06 83 47 92 29</a>
+      <a href="#">17 Résidence Anthelme</a>
+    </div>
+  </div>
+  <div class="rd-footer-bottom">
+    <span>© 2025 Rousseau Digitals — Tous droits réservés</span>
+    <span>Mentions légales · Politique de confidentialité</span>
+  </div>
+</footer>
+
+</body>
+</html>
