@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rousseau Digitals — Agence Web</title>
+<title>Rousseau Digitals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="shortcut icon" type="image/ico" href="Favicon.ico"/>
@@ -280,29 +280,107 @@ textarea.rd-input{resize:vertical;min-height:100px;}
   </div>
 </div>
 
-<!-- ===================== PAIEMENT STRIPE ===================== -->
+<!-- ===================== OFFRES & PAIEMENT ===================== -->
 <div id="paiement" class="rd-pay-bg">
   <div class="rd-pay-inner">
+    
     <div class="rd-pay-header">
-      <div class="rd-pay-badge">Espace client sécurisé</div>
-      <h2 class="rd-h2">Réglez votre projet<br><em>en toute simplicité</em></h2>
-      <p style="font-size:.9rem;color:#888;font-weight:300;max-width:480px;margin:.8rem auto 0;line-height:1.7;">
-        Paiement sécurisé via Stripe.
+      <div class="rd-pay-badge">Nos offres</div>
+      <h2 class="rd-h2">Choisissez votre formule</h2>
+      <p style="font-size:.95rem;color:#aaa;max-width:500px;margin:.8rem auto 0;line-height:1.6;">
+        Des solutions simples, transparentes et adaptées à vos besoins.
       </p>
     </div>
 
-    <div style="text-align:center;margin-top:40px;">
-      <button class="rd-pay-btn"
-        onclick="window.location.href='https://buy.stripe.com/3cI5kwe2k5Nl9Ve2XSd3i01'">
-        Procéder au paiement →
-      </button>
+    <div class="rd-pay-grid" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:25px;
+      margin-top:40px;
+      align-items:stretch;
+    ">
+
+      <!-- PACK 1 -->
+      <div class="rd-pay-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+        <div>
+          <div class="rd-pay-card-title">Hébergement Sérénité</div>
+          <div class="rd-pay-amount-val">15€ / mois</div>
+          <p style="font-size:.9rem;color:#bbb;margin:15px 0;line-height:1.6;">
+            Nom de domaine personnalisable<br>
+            Maintenance 24h/24<br>
+            Hébergement sécurisé<br>
+            Support inclus
+          </p>
+        </div>
+        <button class="rd-pay-btn"
+          onclick="window.location.href='https://buy.stripe.com/cNi5kwcYg4Jh7N68icd3i02'">
+          Souscrire →
+        </button>
+      </div>
+
+      <!-- PACK 2 -->
+      <div class="rd-pay-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+        <div>
+          <div class="rd-pay-card-title">Création Essentielle</div>
+          <div class="rd-pay-amount-val">300€</div>
+          <p style="font-size:.9rem;color:#bbb;margin:15px 0;line-height:1.6;">
+            Création complète du site<br>
+            Design moderne & responsive<br>
+            Retouches incluses<br>
+            Sans hébergement ni domaine
+          </p>
+        </div>
+        <button class="rd-pay-btn"
+          onclick="window.location.href='https://buy.stripe.com/8x200c7DW8Zx4AU2XSd3i03'">
+          Commander →
+        </button>
+      </div>
+
+      <!-- PACK 3 -->
+      <div class="rd-pay-card" style="display:flex;flex-direction:column;justify-content:space-between;border:1px solid #c8a96e;">
+        <div>
+          <div class="rd-pay-card-title">Pack Business</div>
+          <div class="rd-pay-amount-val">500€</div>
+          <p style="font-size:.9rem;color:#bbb;margin:15px 0;line-height:1.6;">
+            Création du site<br>
+            Hébergement inclus<br>
+            Nom de domaine fixe<br>
+            Maintenance continue
+          </p>
+        </div>
+        <button class="rd-pay-btn"
+          onclick="window.location.href='https://buy.stripe.com/fZu00c7DW3Fdc3m6a4d3i04'">
+          Choisir →
+        </button>
+      </div>
+
+      <!-- PACK 4 -->
+      <div class="rd-pay-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+        <div>
+          <div class="rd-pay-card-title">Pack Premium</div>
+          <div class="rd-pay-amount-val">300€ + 15€/mois</div>
+          <p style="font-size:.9rem;color:#bbb;margin:15px 0;line-height:1.6;">
+            Création sur mesure<br>
+            Hébergement inclus<br>
+            Nom de domaine personnalisable<br>
+            Maintenance 24/24<br>
+            Support prioritaire
+          </p>
+        </div>
+        <button class="rd-pay-btn"
+          onclick="window.location.href='https://buy.stripe.com/3cI5kwe2k5Nl9Ve2XSd3i01'">
+          Prendre →
+        </button>
+      </div>
+
     </div>
 
-    <div class="rd-pay-secure" style="margin-top:20px;text-align:center;">
+    <div class="rd-pay-secure" style="margin-top:30px;text-align:center;">
       <span class="rd-pay-secure-text">
         Paiement sécurisé Stripe · SSL 256-bit
       </span>
     </div>
+
   </div>
 </div>
 
