@@ -306,13 +306,14 @@ textarea.rd-input{resize:vertical;min-height:100px;}
   </div>
 </div>
 
-<!-- ===================== CONTACT FORMSPREE ===================== -->
+<!-- ===================== CONTACT EMAILJS ===================== -->
 <div id="contact" class="rd-contact-bg">
   <div class="rd-contact-inner">
     <div class="rd-contact-left">
       <div class="rd-eyebrow">Parlons de votre projet</div>
       <h2 class="rd-h2">Prenons <em>contact</em></h2>
       <p>Que ce soit pour un devis, une question ou simplement pour échanger sur vos idées — nous sommes là. Réponse garantie sous 24h.</p>
+
       <div class="rd-contact-info">
         <div class="rd-contact-item">
           <div class="rd-contact-icon">
@@ -320,12 +321,14 @@ textarea.rd-input{resize:vertical;min-height:100px;}
           </div>
           <div><div class="rd-contact-label">Email</div><div class="rd-contact-value">RousseauDigitals@gmail.com</div></div>
         </div>
+
         <div class="rd-contact-item">
           <div class="rd-contact-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h3l1.5 3.5-2 1.2a9 9 0 004.8 4.8l1.2-2L15 11v3a1 1 0 01-1 1A13 13 0 012 3a1 1 0 011-1z" stroke="#c8a96e" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div><div class="rd-contact-label">Téléphone</div><div class="rd-contact-value">06 83 47 92 29</div></div>
         </div>
+
         <div class="rd-contact-item">
           <div class="rd-contact-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C5.24 1 3 3.24 3 6c0 3.75 5 9 5 9s5-5.25 5-9c0-2.76-2.24-5-5-5z" stroke="#c8a96e" stroke-width=".9"/><circle cx="8" cy="6" r="1.5" stroke="#c8a96e" stroke-width=".9"/></svg>
@@ -334,36 +337,94 @@ textarea.rd-input{resize:vertical;min-height:100px;}
         </div>
       </div>
     </div>
+
     <div>
       <div class="rd-form-wrap" id="contact-form-wrap">
         <div class="rd-form-title">Envoyez-nous un message</div>
-        <!-- ACTION Formspree : remplacer YOUR_FORM_ID par votre ID Formspree -->
-        <form id="contact-form" action="https://formspree.io/f/mkoknkgr" method="POST">
+
+        <form id="contact-form">
           <div class="rd-form-row">
-            <div class="rd-field"><label class="rd-label">Prénom</label><input class="rd-input" type="text" name="prenom" id="cf-prenom" placeholder="Jean" required></div>
-            <div class="rd-field"><label class="rd-label">Nom</label><input class="rd-input" type="text" name="nom" id="cf-nom" placeholder="Dupont"></div>
+            <div class="rd-field">
+              <label class="rd-label">Prénom</label>
+              <input class="rd-input" type="text" name="prenom" >
+            </div>
+
+            <div class="rd-field">
+              <label class="rd-label">Nom</label>
+              <input class="rd-input" type="text" name="name" required>
+            </div>
           </div>
-          <div class="rd-field"><label class="rd-label">Email</label><input class="rd-input" type="email" name="email" id="cf-email" placeholder="jean@exemple.fr" required></div>
-          <div class="rd-field"><label class="rd-label">Téléphone (optionnel)</label><input class="rd-input" type="tel" name="telephone" placeholder="06 xx xx xx xx"></div>
-          <div class="rd-field"><label class="rd-label">Votre projet</label><input class="rd-input" type="text" name="projet" placeholder="Création site vitrine, refonte..."></div>
-          <div class="rd-field"><label class="rd-label">Message</label><textarea class="rd-input" name="message" id="cf-msg" placeholder="Décrivez votre projet, vos objectifs, vos questions..." required></textarea></div>
-          <!-- Honeypot anti-spam Formspree -->
-          <input type="text" name="_gotcha" style="display:none">
+
+          <div class="rd-field">
+            <label class="rd-label">Email</label>
+            <input class="rd-input" type="email" name="email" required>
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label">Téléphone</label>
+            <input class="rd-input" type="tel" name="telephone">
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label">Votre projet</label>
+            <input class="rd-input" type="text" name="projet">
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label">Message</label>
+            <textarea class="rd-input" name="message" required></textarea>
+          </div>
+
           <div class="rd-form-error" id="cf-error"></div>
-          <button type="submit" class="rd-submit" id="cf-submit">Envoyer le message →</button>
+
+          <button type="submit" class="rd-submit" id="cf-submit">
+            Envoyer le message →
+          </button>
         </form>
       </div>
+
       <div class="rd-form-success" id="contact-success">
         <div style="width:44px;height:44px;background:rgba(200,169,110,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11l5 5 9-9" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11l5 5 9-9" stroke="#c8a96e" stroke-width="1.5"/></svg>
         </div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:#f5f0e8;margin-bottom:.6rem;">Message envoyé !</div>
-        <p style="font-size:.85rem;color:rgba(245,240,232,.5);font-weight:300;line-height:1.7;">Merci pour votre message.<br><strong style="color:#c8a96e;font-weight:500;">Nous vous répondrons sous 24h.</strong></p>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:#f5f0e8;margin-bottom:.6rem;">
+          Message envoyé !
+        </div>
+        <p style="font-size:.85rem;color:rgba(245,240,232,.5);">
+          Merci pour votre message.<br>
+          <strong style="color:#c8a96e;">Nous vous répondrons sous 24h.</strong>
+        </p>
       </div>
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+<script>
+emailjs.init("AmVyP4BQW0Sjz5yEt");
+
+const form = document.getElementById("contact-form");
+const success = document.getElementById("contact-success");
+const errorBox = document.getElementById("cf-error");
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  errorBox.textContent = "";
+
+  emailjs.sendForm(
+    "service_g13hi5b",
+    "template_ex4zrpa",
+    form
+  ).then(() => {
+    form.style.display = "none";
+    success.style.display = "block";
+  }).catch((err) => {
+    errorBox.textContent = "Erreur lors de l'envoi, réessayez.";
+    console.error(err);
+  });
+});
+</script>
 <div class="rd-cta-band">
   <h2 class="rd-h2">Prêt à élever<br><em>votre présence digitale ?</em></h2>
   <p>Devis gratuit · Réponse sous 24h · Tarifs transparents</p>
